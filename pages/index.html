@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect QuickBooks Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="card hero" aria-label="Connect to QuickBooks">
+      <div class="hero-content">
+        <h1 class="title">Connect to QuickBooks</h1>
+        <p class="subtitle">Seamlessly manage your projects once connected.</p>
+        <button id="connectBtn" class="btn btn-primary" type="button" aria-controls="tabs">
+          Connect to Quickbooks
+        </button>
+      </div>
+    </section>
+
+    <section id="tabs" class="card tabs is-hidden" aria-label="Project Actions">
+      <div role="tablist" aria-label="Project tabs" class="tablist">
+        <button role="tab" aria-selected="false" aria-controls="panel-create" id="tab-create" class="tab-btn" tabindex="-1">Create Project</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-update" id="tab-update" class="tab-btn" tabindex="-1">Update Project</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-get" id="tab-get" class="tab-btn" tabindex="-1">Get Project</button>
+      </div>
+
+      <div id="panel-create" role="tabpanel" aria-labelledby="tab-create" class="tab-panel" hidden>
+        <form id="form-create" class="form" novalidate>
+          <div class="form-row">
+            <label for="create-id">Customer ID</label>
+            <input id="create-id" name="id" type="text" inputmode="numeric" placeholder="Enter Customer ID" />
+          </div>
+          <div class="form-row">
+            <label for="create-name">Name</label>
+            <input id="create-name" name="name" type="text" placeholder="Enter project name" />
+          </div>
+          <div class="form-actions">
+            <button id="createProjectBtn" class="btn btn-primary" type="button">Create</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="panel-update" role="tabpanel" aria-labelledby="tab-update" class="tab-panel" hidden>
+        <form id="form-update" class="form" novalidate>
+          <div class="form-row">
+            <label for="update-id">ID</label>
+            <input id="update-id" name="id" type="text" inputmode="numeric" placeholder="Enter project ID" />
+          </div>
+          <div class="form-row">
+            <label for="update-name">Name</label>
+            <input id="update-name" name="name" type="text" placeholder="Enter new project name" />
+          </div>
+        <div class="form-actions">
+            <button id="updateProjectBtn"  class= "btn btn-primary" type="button">Update</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="panel-get" role="tabpanel" aria-labelledby="tab-get" class="tab-panel" hidden>
+        <form id="form-get" class="form" novalidate>
+          <div class="form-row">
+            <label for="get-id">ID</label>
+            <input id="get-id" name="id" type="text" inputmode="numeric" placeholder="Enter project ID" />
+          </div>
+          <div class="form-actions">
+            <button id="getByIdBtn"  class="btn btn-primary" type="button">Get</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <div>
+        <label id="display"></label>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      const connectButton = document.getElementById('connectBtn');
+      const tabsSection = document.getElementById('tabs');
+      const heroSection = document.querySelector('.hero');
+      const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+      const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
+      const createButton = document.getElementById('createProjectBtn');
+      const updateButton = document.getElementById('updateProjectBtn');
+      const getButton = document.getElementById('getByIdBtn');
+      let isAuth = false;
+
+        await checkToken();
+        if(isAuth) {
+            showTabs();
+        }
+
+      function activateTab(index) {
+        tabButtons.forEach((btn, i) => {
+          const isActive = i === index;
+          btn.setAttribute('aria-selected', String(isActive));
+          btn.tabIndex = isActive ? 0 : -1;
+          btn.classList.toggle('is-active', isActive);
+          const panel = tabPanels[i];
+          if (panel) {
+            if (isActive) {
+              panel.removeAttribute('hidden');
+            } else {
+              panel.setAttribute('hidden', '');
+            }
+          }
+        });
+      }
+
+      async function checkToken() {
+        const response = await fetch('/api/auth/retrieveToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if(response.ok) {
+            const data = await response.json();
+            if(data.token) {
+                isAuth = true;
+            }
+        }
+      }
+
+    async function login() {
+        const response = await fetch('/api/auth/login', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if(response.ok) {
+            const data = await response.json();
+            if(data.redirectUrl) window.location.href = data.redirectUrl;
+        }
+    }
+        
+
+    createButton.addEventListener('click', function() {
+        const createId = document.getElementById('create-id').value;
+        const createname = document.getElementById('create-name').value;
+        if(!createId || !createname) {
+            alert('must put in both id and name');
+            return;
+        }
+        const body = {
+            id: createId,
+            name: createname
+        };
+
+        fetch('/api/quickbook/project', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const label = document.getElementById('display');
+            const project = data.projectManagementCreateProject;
+            if(project) {
+                label.textContent = `Created with new id: ${project.id} and project name: ${project.name} for customer with id: ${project.customer.id}`;
+                return;
+            }
+            label.textContent = `Creation wasn't successful`;
+        })
+        .catch(error => {
+            const label = document.getElementById('display');
+            label.textContent = `Creation wasn't succesfful`;
+        });
+    });
+
+    updateButton.addEventListener('click', function() {
+        const createId = document.getElementById('update-id').value;
+        const createname = document.getElementById('update-name').value;
+        if(!createId || !createname) {
+            alert('must put in both id and name');
+            return;
+        }
+        const body = {
+            id: createId,
+            name: createname
+        };
+        
+        fetch('/api/quickbook/project', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const label = document.getElementById('display');
+                const project = data.projectManagementUpdateName;
+            if(project) {
+                label.textContent = `Update project name for project with id: ${project.id}`;
+                return;
+            }
+            label.textContent = `Update wasn't successful`;
+        })
+        .catch(error => {
+            const label = document.getElementById('display');
+            label.textContent = `Update wasn't succesfful`;
+        });
+    });
+
+    getButton.addEventListener('click', function () {
+        const getId = document.getElementById('get-id').value;
+        if(!getId) {
+            alert('must put in id');
+            return;
+        }
+        fetch(`/api/quickbook/project/${getId}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            const label = document.getElementById('display');
+            const project = data.projectManagementProject;
+            if(project) {
+                label.innerText = `project name: ${project.name} | project descrption: ${project.description} | status: ${project.status} | customer id: ${project.customer.id}`;
+            }
+        })
+        .catch(error => {
+            const label = document.getElementById('display');
+            label.innerText = 'Unable to get project'
+        })
+    })
+
+    function showTabs() {
+        tabsSection.classList.remove('is-hidden');
+        heroSection.classList.add('is-hidden');
+        activateTab(0);
+        tabButtons[0].focus();
+    }
+
+    connectButton.addEventListener('click', login);
+
+    tabButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => activateTab(index));
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            const next = (index + 1) % tabButtons.length;
+            activateTab(next);
+            tabButtons[next].focus();
+            } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const prev = (index - 1 + tabButtons.length) % tabButtons.length;
+            activateTab(prev);
+            tabButtons[prev].focus();
+            }
+        });
+    });
+    })();
+  </script>
+</body>
+</html> 
