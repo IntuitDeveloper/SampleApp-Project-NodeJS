@@ -17,7 +17,7 @@ query projectManagementProject($id: ID!) {
 
 
 export const getProjectByIdVariable = (id) => {
-    return {
+  return {
     "id": id
   }
 };

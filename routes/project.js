@@ -29,29 +29,28 @@ const getProjectClient = () => {
     return client;
 }
 
+router.get('/project/info', async function (req, res) {
+    const client = getProjectClient();
+    const data = await getProjectInfo(client, req.query);
+    res.send(data);
+});
+
 router.get('/project/:id', async function (req, res) {
     const client = getProjectClient();
     const data = await getProjectById(client, req.params.id);
     res.send(data);
 });
 
-router.get('/project/info', async function (req, res) {
-    const client = getProjectClient();
-    const data = await getProjectInfo(client);
-    res.send(data);
-});
 
 router.post('/project', async function (req, res) {
     const client = getProjectClient();
-    const {id, name} = req.body;
-    const data = await createProject(client, id, name);
+    const data = await createProject(client, req.body);
     res.json(data);
 });
 
 router.put('/project', async function (req, res) {
     const client = getProjectClient();
-    const { id, name } = req.body;
-    const data = await updateProjectName(client, id, name);
+    const data = await updateProjectName(client, req.body);
     res.send(data);
 });
 

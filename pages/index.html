@@ -26,17 +26,42 @@
         <button role="tab" aria-selected="false" aria-controls="panel-create" id="tab-create" class="tab-btn" tabindex="-1">Create Project</button>
         <button role="tab" aria-selected="false" aria-controls="panel-update" id="tab-update" class="tab-btn" tabindex="-1">Update Project</button>
         <button role="tab" aria-selected="false" aria-controls="panel-get" id="tab-get" class="tab-btn" tabindex="-1">Get Project</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-get-filter" id="tab-get-filter" class="tab-btn" tabindex="-1">Get Projects By Filter</button>
       </div>
 
       <div id="panel-create" role="tabpanel" aria-labelledby="tab-create" class="tab-panel" hidden>
         <form id="form-create" class="form" novalidate>
           <div class="form-row">
-            <label for="create-id">Customer ID</label>
-            <input id="create-id" name="id" type="text" inputmode="numeric" placeholder="Enter Customer ID" />
-          </div>
-          <div class="form-row">
             <label for="create-name">Name</label>
             <input id="create-name" name="name" type="text" placeholder="Enter project name" />
+          </div>
+          <div class="form-row">
+            <label for="create-customer">Customer ID</label>
+            <input id="create-customer" name="customer" type="text" placeholder="Enter customer" />
+          </div>
+          <div class="form-row">
+            <label for="create-description">Description</label>
+            <input id="create-description" name="description" type="text" placeholder="Enter description" />
+          </div>
+          <div class="form-row">
+            <label for="create-dueDate">Due Date</label>
+            <input id="create-dueDate" name="dueDate" type="date" />
+          </div>
+          <div class="form-row">
+            <label for="create-email">Email Address</label>
+            <input id="create-email" name="email" type="email" placeholder="Enter email address" />
+          </div>
+          <div class="form-row">
+            <label for="create-priority">Priority</label>
+            <input id="create-priority" name="priority" type="text" placeholder="Enter project priority" />
+          </div>
+          <div class="form-row">
+            <label for="create-startDate">Start Date</label>
+            <input id="create-startDate" name="startDate" type="date" />
+          </div>
+          <div class="form-row">
+            <label for="create-status">Status</label>
+            <input id="create-status" name="status" type="text" placeholder="Enter status" />
           </div>
           <div class="form-actions">
             <button id="createProjectBtn" class="btn btn-primary" type="button">Create</button>
@@ -54,6 +79,38 @@
             <label for="update-name">Name</label>
             <input id="update-name" name="name" type="text" placeholder="Enter new project name" />
           </div>
+          <div class="form-row">
+            <label for="update-completionRate">Completion Rate</label>
+            <input id="update-completionRate" name="completionRate" type="text" placeholder="Enter completion rate" />
+          </div>
+          <div class="form-row">
+            <label for="update-customer">Customer</label>
+            <input id="update-customer" name="customer" type="text" placeholder="Enter customer" />
+          </div>
+          <div class="form-row">
+            <label for="update-description">Description</label>
+            <input id="update-description" name="description" type="text" placeholder="Enter description" />
+          </div>
+          <div class="form-row">
+            <label for="update-dueDate">Due Date</label>
+            <input id="update-dueDate" name="dueDate" type="date" />
+          </div>
+          <div class="form-row">
+            <label for="update-email">Email Address</label>
+            <input id="update-email" name="email" type="email" placeholder="Enter email address" />
+          </div>
+          <div class="form-row">
+            <label for="update-startDate">Start Date</label>
+            <input id="update-startDate" name="startDate" type="date" />
+          </div>
+          <div class="form-row">
+            <label for="update-status">Status</label>
+            <input id="update-status" name="status" type="text" placeholder="Enter status" />
+          </div>
+          <div class="form-row">
+            <label for="update-priority">Priority</label>
+            <input id="update-priority" name="priority" type="text" inputmode="numeric" placeholder="Enter project priority" />
+          </div>
         <div class="form-actions">
             <button id="updateProjectBtn"  class= "btn btn-primary" type="button">Update</button>
           </div>
@@ -68,12 +125,77 @@
           </div>
           <div class="form-actions">
             <button id="getByIdBtn"  class="btn btn-primary" type="button">Get</button>
+            <button id="deleteBtn" class="btn btn-danger" type="button" >Delete</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="panel-get-filter" role="tabpanel" aria-labelledby="tab-get-filter" class="tab-panel" hidden>
+        <form id="form-get-filter" class="form" novalidate>
+          <div class="form-row">
+            <label for="get-filter-id">Project IDs</label>
+            <input id="get-filter-id" name="id" type="text" placeholder="Enter IDs" />
+          </div>
+          <div class="form-row">
+            <label for="get-filter-type">Type</label>
+            <input id="get-filter-type" name="type" type="text" placeholder="Enter type" />
+          </div>
+          <div class="form-row">
+            <label for="get-filter-customer">Customer IDs</label>
+            <input id="get-filter-customer" name="customer" type="text" placeholder="Enter customer IDs" />
+          </div>
+          <div class="form-row">
+            <label for="get-filter-priority">Priority</label>
+            <input id="get-filter-priority" name="priority" type="text" placeholder="Enter Priority" />
+          </div>
+          <div class="form-row">
+            <label for="get-filter-status">Status</label>
+            <input id="get-filter-status" name="priority-status" type="text" placeholder="Enter Statuses" />
+          </div>
+          <div class="form-row">
+            <label for="get-filter-startDateFrom">Start Date From</label>
+            <input id="get-filter-startDateFrom" name="start-date-from" type="date"/>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-startDateTo">Start Date To</label>
+            <input id="get-filter-startDateTo" name="start-date-to" type="date"/>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-dueDateFrom">Due Date From</label>
+            <input id="get-filter-dueDateFrom" name="due-date-from" type="date"/>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-dueDateTo">Due Date To</label>
+            <input id="get-filter-dueDateTo" name="due-date-to" type="date"/>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-active">Active</label>
+            <label> <input type="radio" name="get-filter-active" value="true"> True</label>
+            <label> <input type="radio" name="get-filter-active" value="false"> False</label>
+            <label> <input type="radio" name="get-filter-active" value="" checked> None</label>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-sort">Sort By</label>
+            <label> <input type="radio" name="get-filter-sort" value="COMPLETED_DATE"> COMPLETED DATE</label>
+            <label> <input type="radio" name="get-filter-sort" value="DUE_DATE" checked> DUE DATE</label>
+            <label> <input type="radio" name="get-filter-sort" value="NAME"> NAME</label>
+            <label> <input type="radio" name="get-filter-sort" value="STATUS"> STATUS</label>
+            <label> <input type="radio" name="get-filter-sort" value="TYPE"> TYPE</label>
+          </div>
+          <div class="form-row">
+            <label for="get-filter-order">Sort Order</label>
+            <label> <input type="radio" name="get-filter-order" value="ASC"> Ascending</label>
+            <label> <input type="radio" name="get-filter-order" value="DESC" checked> Descending</label>
+          </div>
+          <div class="form-actions">
+            <button id="getFilterBtn" class="btn btn-primary" type="button">Get Projects</button>
           </div>
         </form>
       </div>
     </section>
     <div>
         <label id="display"></label>
+        <div id="table"></div>
     </div>
   </main>
 
@@ -87,6 +209,8 @@
       const createButton = document.getElementById('createProjectBtn');
       const updateButton = document.getElementById('updateProjectBtn');
       const getButton = document.getElementById('getByIdBtn');
+      const getFilterButton = document.getElementById('getFilterBtn');
+      const deleteButton = document.getElementById('deleteBtn');
       let isAuth = false;
 
         await checkToken();
@@ -138,18 +262,116 @@
             if(data.redirectUrl) window.location.href = data.redirectUrl;
         }
     }
-        
+
+      getFilterButton.addEventListener('click', function() {
+        const active = document.querySelector('input[name="get-filter-active"]:checked')?.value;
+        const sortBy = document.querySelector('input[name="get-filter-sort"]:checked')?.value;
+        const orderBy = document.querySelector('input[name="get-filter-order"]:checked')?.value;
+        const ids = document.getElementById('get-filter-id').value;
+        const status = document.getElementById('get-filter-status').value;
+        const customerIds = document.getElementById('get-filter-customer').value;
+        const dueFrom = document.getElementById('get-filter-dueDateFrom').value;
+        const dueTo = document.getElementById('get-filter-dueDateTo').value;
+        const startFrom = document.getElementById('get-filter-startDateFrom').value;
+        const startTo = document.getElementById('get-filter-startDateTo').value;
+        const priority = document.getElementById('get-filter-priority').value;
+        const type = document.getElementById('get-filter-type').value;
+
+        if((dueFrom && !dueTo) || (dueTo && !dueFrom)) {
+            alert('must put in both due from and to values');
+            return;
+        }
+        if((startFrom && !startTo) || (startTo && !startFrom)) {
+            alert('must put in both start from and to values');
+            return;
+        }
+        const params = {
+            active: active && active !== 'undefined' ? active === "true" : '',
+            id: ids,
+            customerId: customerIds,
+            dueDateFrom: dueFrom ? new Date(dueFrom)?.toISOString() : '',
+            dueDateTo: dueTo ? new Date(dueTo)?.toISOString() : '',
+            startDateFrom: startFrom ? new Date(startFrom)?.toISOString() : '',
+            startDateTo: startTo ? new Date(startTo)?.toISOString() : '',
+            priority: priority,
+            status: status,
+            type: type,
+            sort: `${sortBy}_${orderBy}`
+        }
+        const queryString = new URLSearchParams(params).toString();
+        fetch(`/api/quickbook/project/info?${queryString}`, {
+            headers: {'Content-Type': 'application/json' },
+        })
+        .then(response => response.json())
+        .then(data => {
+            const projects = data.projectManagementProjects.edges;
+            const label = document.getElementById('display');
+            display.innerText = '';
+            let tableHtml = `
+                <table>
+                    `;
+            if(projects && projects.length > 0) {
+                tableHtml = `${tableHtml}
+                    <thead>
+                        <tr>
+                            <th> ID </th>
+                            <th> NAME </th>
+                            <th> STATUS </th>
+                            <th> TYPE </th>
+                            <th> DESCRIPTION </th>
+                            <th> CUSTOMER </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    `;
+            }
+            for(const node of projects) {
+                const project = node?.node;
+                if(!project) {
+                    continue;
+                }
+                tableHtml = `${tableHtml}
+                    <tr> 
+                        <td> ${project.id} </td>
+                        <td> ${project.name} </td>
+                        <td> ${project.status} </td>
+                        <td> ${project.type} </td>
+                        <td> ${project.description} </td>
+                        <td> ${project.customer?.id} </td>
+                    </tr>
+                `;
+            }
+            tableHtml = `${tableHtml}
+                </tbody>
+            </table>
+            `;
+            const table = document.getElementById('table');
+            table.innerHTML = tableHtml;
+        })
+      });        
 
     createButton.addEventListener('click', function() {
-        const createId = document.getElementById('create-id').value;
+        const customerId = document.getElementById('create-customer').value;
         const createname = document.getElementById('create-name').value;
-        if(!createId || !createname) {
+        const description = document.getElementById('create-description').value;
+        const status = document.getElementById('create-status').value;
+        const dueDate = document.getElementById('create-dueDate').value;
+        const startDate = document.getElementById('create-startDate').value;
+        const priority = document.getElementById('create-priority').value;
+        const email = document.getElementById('create-email').value;
+        if(!customerId || !createname) {
             alert('must put in both id and name');
             return;
         }
         const body = {
-            id: createId,
-            name: createname
+            customerId: customerId,
+            name: createname,
+            description: description,
+            status: status,
+            dueDate: dueDate ? new Date(dueDate)?.toISOString() : '',
+            startDate: startDate ? new Date(startDate)?.toISOString() : '',
+            email: email,
+            priority: priority
         };
 
         fetch('/api/quickbook/project', {
@@ -160,6 +382,8 @@
         .then(response => response.json())
         .then(data => {
             const label = document.getElementById('display');
+            const table = document.getElementById('table');
+            table.innerHTML = '';
             const project = data.projectManagementCreateProject;
             if(project) {
                 label.textContent = `Created with new id: ${project.id} and project name: ${project.name} for customer with id: ${project.customer.id}`;
@@ -174,15 +398,32 @@
     });
 
     updateButton.addEventListener('click', function() {
-        const createId = document.getElementById('update-id').value;
-        const createname = document.getElementById('update-name').value;
-        if(!createId || !createname) {
-            alert('must put in both id and name');
+        const id = document.getElementById('update-id').value;
+        const name = document.getElementById('update-name').value;
+
+        const customerId = document.getElementById('update-customer').value;
+        const description = document.getElementById('update-description').value;
+        const status = document.getElementById('update-status').value;
+        const dueDate = document.getElementById('update-dueDate').value;
+        const startDate = document.getElementById('update-startDate').value;
+        const priority = document.getElementById('update-priority').value;
+        const email = document.getElementById('update-email').value;
+        const completionRate = document.getElementById('update-completionRate').value;
+        if(!id) {
+            alert('must put in id');
             return;
         }
         const body = {
-            id: createId,
-            name: createname
+            id: id,
+            name: name,
+            customer: customerId,
+            description: description,
+            status: status,
+            dueDate: dueDate ? new Date(dueDate)?.toISOString() : '',
+            startDate: startDate ? new Date(startDate)?.toISOString() : '',
+            priority: priority,
+            email: email,
+            completionRate: completionRate
         };
         
         fetch('/api/quickbook/project', {
@@ -193,7 +434,9 @@
         .then(response => response.json())
         .then(data => {
             const label = document.getElementById('display');
-                const project = data.projectManagementUpdateName;
+            const project = data.projectManagementUpdateProject;
+            const table = document.getElementById('table');
+            table.innerHTML = '';
             if(project) {
                 label.textContent = `Update project name for project with id: ${project.id}`;
                 return;
@@ -201,6 +444,8 @@
             label.textContent = `Update wasn't successful`;
         })
         .catch(error => {
+            const table = document.getElementById('table');
+            table.innerHTML = '';
             const label = document.getElementById('display');
             label.textContent = `Update wasn't succesfful`;
         });
@@ -220,15 +465,49 @@
         .then(data => {
             const label = document.getElementById('display');
             const project = data.projectManagementProject;
+            const table = document.getElementById('table');
+            table.innerHTML = '';
             if(project) {
                 label.innerText = `project name: ${project.name} | project descrption: ${project.description} | status: ${project.status} | customer id: ${project.customer.id}`;
             }
         })
         .catch(error => {
             const label = document.getElementById('display');
+            const table = document.getElementById('table');
+            table.innerHTML = '';
             label.innerText = 'Unable to get project'
-        })
+        });
     })
+
+    deleteButton.addEventListener('click', function() {
+        const deleteId = document.getElementById('get-id').value;
+        if(!deleteId) {
+            alert('must put in id');
+            return;
+        }
+        fetch(`/api/quickbook/project/${deleteId}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            const label = document.getElementById('display');
+            const project = data.projectManagementDeleteProject;
+            const table = document.getElementById('table');
+            table.innerHTML = '';
+            if(project) {
+                label.innerText = `project name: ${project.name} | project descrption: ${project.description} | status: ${project.status} | customer id: ${project.customer.id}`;
+                return;
+            }
+            label.innerText = 'Unable to delete project'
+        })
+        .catch(error => {
+            const table = document.getElementById('table');
+            table.innerHTML = '';
+            const label = document.getElementById('display');
+            label.innerText = 'Unable to delete project'
+        });
+    });
 
     function showTabs() {
         tabsSection.classList.remove('is-hidden');

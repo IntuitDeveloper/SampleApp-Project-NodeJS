@@ -1,9 +1,9 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { v4 } from 'uuid';
-import { getProjectQuery, getProjectVariable } from '../graphql/project/getProjectsByDateRange.js';
+import { getProjectQuery, getProjectVariable } from '../graphql/project/getProjectsByFilter.js';
 import { createProjectMutation, createProjectVariables } from '../graphql/project/createProject.js';
 import { getProjectByIdQuery, getProjectByIdVariable } from '../graphql/project/getProjectById.js';
-import { updateProjectNameQuery, updateProjectNameVariable } from '../graphql/project/updateProjectName.js';
+import { updateProjectNameQuery, updateProjectNameVariable } from '../graphql/project/updateProject.js';
 import { deleteProjectQuery, deleteProjectVariable } from '../graphql/project/deleteProject.js';
 
 const moveDate = (days, add) => {
@@ -29,17 +29,17 @@ const makeRequest = async (client, queryData, variables) => {
     }
 }
 
-export const getProjectInfo = async (client) => {
+export const getProjectInfo = async (client, params) => {
     const projects = await makeRequest(
         client, 
         getProjectQuery,
-        getProjectVariable(1, null, moveDate(100), moveDate(100, true), ["DUE_DATE_DESC"])
+        getProjectVariable(params)
     );
     return projects;
 }
 
-export const createProject = async (client, id, name) => {
-    const createdProject = await makeRequest(client, createProjectMutation, createProjectVariables(id, name));
+export const createProject = async (client, params) => {
+    const createdProject = await makeRequest(client, createProjectMutation, createProjectVariables(params));
     return createdProject;
 }
 
@@ -48,8 +48,8 @@ export const getProjectById = async (client, id) => {
     return project;
 }
 
-export const updateProjectName = async (client, id, name) => {
-    const updatedData = await makeRequest(client, updateProjectNameQuery, updateProjectNameVariable(id, name));
+export const updateProjectName = async (client, params) => {
+    const updatedData = await makeRequest(client, updateProjectNameQuery, updateProjectNameVariable(params));
     return updatedData;
 }
 
