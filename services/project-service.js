@@ -6,13 +6,6 @@ import { getProjectByIdQuery, getProjectByIdVariable } from '../graphql/project/
 import { updateProjectNameQuery, updateProjectNameVariable } from '../graphql/project/updateProject.js';
 import { deleteProjectQuery, deleteProjectVariable } from '../graphql/project/deleteProject.js';
 
-const moveDate = (days, add) => {
-    if(add) {
-        return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
-    }
-    return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
-}
-
 export const getGraphQLClient = (endpoint, token) => new GraphQLClient(endpoint, {
     headers: {
         authorization: `Bearer ${token}`,
@@ -21,6 +14,7 @@ export const getGraphQLClient = (endpoint, token) => new GraphQLClient(endpoint,
 
 const makeRequest = async (client, queryData, variables) => {
     try{
+        console.log('variables', variables);
         const query = gql`${queryData}`;
         const response = await client.request(query, variables);
         return response;

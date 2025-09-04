@@ -26,7 +26,7 @@ app.get('/projects', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 
-app.use('/api/quickbook', projectQuickBookRoutes);
+app.use('/api/quickbook/project', projectQuickBookRoutes);
 
 app.listen(PORT, () => {
     console.log('server up on PORT ', PORT);

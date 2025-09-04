@@ -97,6 +97,5 @@ export const getProjectVariable = (params) => {
     variable.after = params.after;
   }
 
-  // console.log('variable for get filter is ,', variable);
   return variable;
 };

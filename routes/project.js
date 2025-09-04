@@ -29,32 +29,32 @@ const getProjectClient = () => {
     return client;
 }
 
-router.get('/project/info', async function (req, res) {
+router.get('/info', async function (req, res) {
     const client = getProjectClient();
     const data = await getProjectInfo(client, req.query);
     res.send(data);
 });
 
-router.get('/project/:id', async function (req, res) {
+router.get('/:id', async function (req, res) {
     const client = getProjectClient();
     const data = await getProjectById(client, req.params.id);
     res.send(data);
 });
 
 
-router.post('/project', async function (req, res) {
+router.post('', async function (req, res) {
     const client = getProjectClient();
     const data = await createProject(client, req.body);
     res.json(data);
 });
 
-router.put('/project', async function (req, res) {
+router.put('', async function (req, res) {
     const client = getProjectClient();
     const data = await updateProjectName(client, req.body);
     res.send(data);
 });
 
-router.delete('/project/:id', async function (req, res) {
+router.delete('/:id', async function (req, res) {
     const client = getProjectClient();
     const data = await deleteProject(client, req.params.id);
     res.send(data);
