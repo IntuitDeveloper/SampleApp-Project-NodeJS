@@ -74,7 +74,45 @@ The API requires the following OAuth scopes for full functionality:
 
 > **Note**: The `project-management.project` scope is essential for accessing QuickBooks Projects GraphQL API endpoints.
 
+## Prerequisites
+
+### Node.js Version Requirements
+- **Node.js 18.0.0 or higher** is required
+- This project uses Express.js 5.1.0 which requires Node.js 18+ for the `node:` protocol prefix
+
+### Check Your Node.js Version
+```bash
+node --version
+```
+
+If you have an older version, upgrade Node.js:
+- **Using Node Version Manager (nvm)** (recommended):
+  ```bash
+  # This project includes a .nvmrc file for easy version management
+  nvm use  # Automatically uses Node.js 18 as specified in .nvmrc
+  
+  # Or manually install and use Node.js 18
+  nvm install 18
+  nvm use 18
+  ```
+- **Download from nodejs.org**: Visit https://nodejs.org and download the LTS version
+
 ## Getting Started
+
+### Quick Setup (Recommended)
+
+Run the automated setup script:
+```bash
+./setup.sh
+```
+
+This script will:
+- ✅ Check Node.js version compatibility
+- ✅ Install all required dependencies
+- ✅ Verify GraphQL package installation
+- ✅ Provide next steps
+
+### Manual Setup
 
 1. **Install Dependencies**
    ```bash
@@ -88,6 +126,8 @@ The API requires the following OAuth scopes for full functionality:
 3. **Run the Application**
    ```bash
    node index.js
+   # or
+   npm start
    ```
 
 4. **Complete OAuth Authentication**
@@ -398,23 +438,79 @@ This API implements multiple GraphQL strategies for different operations:
 
 ### Common Issues
 
-1. **"Forbidden" Error**
+1. **"Cannot find module 'node:events'" Error**
+   
+   **Problem**: This error occurs when using Node.js version below 18.0.0 with Express.js 5.1.0.
+   
+   **Solution**:
+   ```bash
+   # Check your Node.js version
+   node --version
+   
+   # If below v18.0.0, upgrade using nvm (recommended)
+   nvm install 18
+   nvm use 18
+   
+   # Or download from https://nodejs.org
+   
+   # After upgrading, reinstall dependencies
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+2. **"Forbidden" Error**
    - Ensure `project-management.project` scope is included in OAuth authorization
 
-2. **"Invalid URI or environment" Error**
+3. **"Invalid URI or environment" Error**
    - Verify `Environment` is set to `"Sandbox"` or `"Production"`
    - Check that `RedirectUri` matches your QuickBooks app configuration
 
-3. **GraphQL Query Errors**
+4. **GraphQL Query Errors**
    - Single project queries use `projectManagementProject` (no 's')
    - Filtered queries use `projectManagementProjects` (with 's')
    - Ensure proper variable types: `ID!` for single project, `ProjectManagement_ProjectFilter!` for filtered
 
-4. **Filter Limitations**
+5. **Filter Limitations**
    - ✅ **Date Range Filters**: `startDate` filters work correctly
    - ❌ **Other Filters**: `id`, `type`, `status`, `customerId` filters are not supported by QuickBooks GraphQL schema
    - The API accepts these parameters but they will not affect the results
    - Use date range filtering as the primary filtering mechanism
+
+6. **Dependencies Installation Issues**
+   
+   **If npm install fails**:
+   ```bash
+   # Clear npm cache
+   npm cache clean --force
+   
+   # Remove node_modules and package-lock.json
+   rm -rf node_modules package-lock.json
+   
+   # Reinstall with specific Node.js version
+   nvm use 18
+   npm install
+   ```
+
+7. **"Cannot find package 'graphql'" Error**
+   
+   **Problem**: The `graphql-request` package requires the core `graphql` package as a peer dependency.
+   
+   **Solution**:
+   ```bash
+   # Install the missing graphql dependency
+   npm install graphql
+   
+   # Or reinstall all dependencies to ensure everything is up to date
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+8. **Environment Configuration Issues**
+   
+   **Missing .env file**:
+   - Create a `.env` file in the project root
+   - Copy the configuration template from the Configuration section above
+   - Ensure all required environment variables are set
 
 
 ### Environment Setup
