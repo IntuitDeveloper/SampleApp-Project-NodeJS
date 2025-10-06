@@ -25,7 +25,6 @@ router.get('/login', urlencodedParser, function (req, res) {
   const authUri = oauthClient.authorizeUri({
     scope: [
       OAuthClient.scopes.Accounting,
-      OAuthClient.scopes.Payment,
       OAuthClient.scopes.OpenId,
       OAuthClient.scopes.Profile,
       OAuthClient.scopes.Email,
